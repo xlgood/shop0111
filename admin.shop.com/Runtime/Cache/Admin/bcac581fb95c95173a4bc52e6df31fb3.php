@@ -32,34 +32,27 @@
     <div class="list-div" id="listDiv">
         <table cellpadding="3" cellspacing="1">
             <tr>
-                <th><input type="checkbox" class="id"/>供应商ID</th>
-                <th>供应商名称</th>
-                <th>供应商描述</th>
-                <th>排序</th>
-                <th>是否显示</th>
-                <th>操作</th>
+                <th><input type="checkbox" class="id"/>品牌ID</th>
+                                <th>供应商名称</th>
+                                <th>排序</th>
+                                <th>供应商简介</th>
+                                <th>是否显示</th>
+                                <th>操作</th>
             </tr>
             <?php if(is_array($rows)): $i = 0; $__LIST__ = $rows;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$row): $mod = ($i % 2 );++$i;?><tr>
                     <td><input type="checkbox" name="id[]" class="ids" value="<?php echo ($row["id"]); ?>" /><?php echo ($row["id"]); ?></td>
-                    <td class="first-cell">
-                        <span><?php echo ($row["name"]); ?></span>
-                    </td>
-                    <td align="center"><?php echo ($row["intro"]); ?></td>
-                    <td align="center"><span><?php echo ($row["sort"]); ?></span></td>
-                    <td align="center"><a class="ajax-get" href="<?php echo U('changeStatus',array('id'=>$row['id'],'status'=>1-$row['status']));?>"><img src="http://admin.shop.com/Public/Admin/images/<?php echo ($row["status"]); ?>.gif" /></a></td>
+                    <td class="first-cell"><span><?php echo ($row["name"]); ?></span></td><td align="center"><?php echo ($row["sort"]); ?></td><td align="center"><?php echo ($row["intro"]); ?></td><td align="center"><a class=\"ajax-get\" href=\"<?php echo U('changeStatus',array('id'=>$row['id'],'status'=>1-$row['status']));?>\"><img src="http://admin.shop.com/Public/Admin/images/<?php echo ($row["status"]); ?>.gif" /></a></td>
+
+
                     <td align="center">
                         <a href="<?php echo U('edit',array('id'=>$row['id']));?>" title="编辑">编辑</a> |
                         <a class="ajax-get" href="<?php echo U('changeStatus',array('id'=>$row['id']));?>" title="移除">移除</a>
                     </td>
                 </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-            <tr>
-                <td align="right" nowrap="true" colspan="6">
-                    <div id="turn-page" class="page">
-                        <?php echo ($pageHtml); ?>
-                    </div>
-                </td>
-            </tr>
         </table>
+        <div id="turn-page" class="page">
+            <?php echo ($pageHtml); ?>
+        </div>
     </div>
 
 <div id="footer">

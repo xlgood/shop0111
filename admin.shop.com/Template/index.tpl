@@ -4,16 +4,25 @@
         <table cellpadding="3" cellspacing="1">
             <tr>
                 <th><input type="checkbox" class="id"/>品牌ID</th>
-                                <th>供应商名称</th>
-                                <th>排序</th>
-                                <th>供应商简介</th>
-                                <th>是否显示</th>
-                                <th>操作</th>
+                <?php foreach($fields as $field): ?>
+                <th><?php echo $field['comment'] ?></th>
+                <?php endforeach; ?>
+                <th>操作</th>
             </tr>
             <volist name="rows" id="row">
                 <tr>
                     <td><input type="checkbox" name="id[]" class="ids" value="{$row.id}" />{$row.id}</td>
-                    <td class="first-cell"><span>{$row.name}</span></td><td align="center">{$row.sort}</td><td align="center">{$row.intro}</td><td align="center"><a class=\"ajax-get\" href=\"{:U('changeStatus',array('id'=>\$row['id'],'status'=>1-\$row['status']))}\"><img src="__IMG__/{\$row.status}.gif" /></a></td>
+                    <?php foreach($fields as $field){
+                        if($field['field']=='name'){
+                            echo "<td class=\"first-cell\"><span>{\$row.name}</span></td>";
+                        }elseif($field['field']=='status'){
+                            echo '<td align="center"><a class=\"ajax-get\" href=\"{:U(\'changeStatus\',array(\'id\'=>\$row[\'id\'],\'status\'=>1-\$row[\'status\']))}\"><img src="__IMG__/{\$row.status}.gif" /></a></td>';
+                        }else{
+                            echo "<td align=\"center\">{\$row.{$field['field']}}</td>";
+                        }
+                    }
+                    ?>
+
 
 
                     <td align="center">
