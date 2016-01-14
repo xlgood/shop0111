@@ -1,0 +1,102 @@
+<extend name="Common:edit"/>
+<block name="css">
+    <link rel="stylesheet" href="__ZTREE__/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <style type="text/css">
+        ul.ztree {
+            margin-top: 10px;
+            border: 1px solid #617775;
+            background: #f0f6e4;
+            width: 220px;
+            height: auto;
+            overflow-y: scroll;
+            overflow-x: auto;
+        }
+    </style>
+</block>
+<block name="form">
+    <div class="main-div">
+        <form method="post" action="{:U()}">
+            <table cellspacing="1" cellpadding="3" width="100%">
+                                <tr>
+                    <td class="label">分类名称</td>
+                    <td>
+                        <input type='text' name='name' maxlength='60' value='{$name}' />
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                                <tr>
+                    <td class="label">父分类</td>
+                    <td>
+                        <input type="hidden" class="parent_id" name="parent_id" value="0">
+                        <input type='text' class="parent_name" name='parent_name' maxlength='60' value='默认顶级分类' disabled="disabled"/>
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"></td>
+                    <td>
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </td>
+                </tr>
+                                <tr>
+                    <td class="label">分类简介</td>
+                    <td>
+                        <textarea  name='intro' cols='60' rows='4'  >{$intro}</textarea>
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                                <tr>
+                    <td class="label">是否显示</td>
+                    <td>
+                        <input type='radio' class='status' name='status' value='1'  /> 是<input type='radio' class='status' name='status' value='0'  /> 否
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                                <tr>
+                    <td colspan="2" align="center"><br />
+                        <input type="hidden" name="id" value="{$id}"/>
+                        <input type="submit" class="button " value=" 确定 " />
+                        <input type="reset" class="button" value=" 重置 " />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</block>
+<block name="js">
+    <script type="text/javascript" src="__ZTREE__/js/jquery.ztree.core-3.5.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true,
+                        pIdKey: "parent_id"
+                    }
+                },
+                callback : {
+                    onClick : function (event,treeId,treeNode) {  //treeNode是点击的节点
+                        $('.parent_id').val(treeNode.id);
+                        $('.parent_name').val(treeNode.name);
+                    }
+                }
+            };
+
+            var zNodes ={$zNodes} ;
+            var zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            <empty name="id">
+                //id为空 表示是添加页面
+                zTreeObj.expandAll(true); //展开所有节点
+                <else/>
+                    //id不为空 表示是编辑页面
+                    var parent_id = {$parent_id};
+                    var node = zTreeObj.getNodeByParam('id',parent_id); //找到节点id等于parent_id的节点
+                    zTreeObj.selectNode(node); //选中当前节点
+                    //将选中节点的id和name赋值给表单元素
+                    $('.parent_id').val(node.id);
+                    $('.parent_name').val(node.name);
+            </empty>
+
+        });
+    </script>
+</block>

@@ -18,10 +18,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="label">品牌Logo</td>
+                    <td class="label">品牌LOGO</td>
                     <td>
-                        <input type="file" name="logo"  />
-                        <span class="require-field">*</span>
+                        <input type="file" id="logo_uploader" name="logo_uploader"  />
+                        <input type="hidden"  name="logo" class="logo" />
+                        <div class="upload-img-box" style="display: none">
+                            <div class="upload-pre-item">
+                                <img src="">
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -53,4 +58,32 @@
             </table>
         </form>
     </div>
+</block>
+<block name="js">
+    <script type="text/javascript" src="__UPLOADIFY__/jquery.uploadify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#logo_uploader").uploadify({
+                fileTypeExts  : '*.gif; *.jpg; *.png',  //允许上传的文件后缀名
+                formData      : {'dir' : 'php1009-brand'},  //附带上传的其他参数
+                fileSizeLimit : '2MB',      //最大上传图片大小
+                buttonText    : '上传图片',   //显示的文字
+                height        : 30,
+                swf           : '__UPLOADIFY__/uploadify.swf', //flash插件
+                uploader      : "{:U('Upload/index')}",  //处理上传的方法
+                width         : 120,
+                'onUploadSuccess' : function(file, data, response) {  //上传成功后执行  data就是响应的上传地址
+//                    alert(data);
+//                    return;
+                    $('.upload-img-box').show();
+//                    $('.upload-img-box .upload-pre-item img').attr('src','/Uploads/'+data);
+                    $('.upload-img-box .upload-pre-item img').attr('src','__BRAND__'+data);
+                    $('.logo').val(data); //将上传后的路径放到隐藏域中提交给服务器
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) { //上传失败后执行
+                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                }
+            });
+        });
+    </script>
 </block>

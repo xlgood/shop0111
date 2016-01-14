@@ -19,7 +19,8 @@
                         <span>{$row.name}</span>
                     </td>
                     <td align="center">{$row.url}</td>
-                    <td align="center">{$row.logo}</td>
+                    <td align="center"><img src="__BRAND__{$row.logo}" width="30px"/></td>
+                    <!--<td align="center"><img src="/Uploads/{$row.logo}" width="30px"/></td>-->
                     <td align="center">{$row.intro}</td>
                     <td align="center"><span>{$row.sort}</span></td>
                     <td align="center"><a class="ajax-get" href="{:U('changeStatus',array('id'=>$row['id'],'status'=>1-$row['status']))}"><img src="__IMG__/{$row.status}.gif" /></a></td>

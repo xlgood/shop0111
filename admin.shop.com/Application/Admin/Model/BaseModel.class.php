@@ -73,8 +73,6 @@ class BaseModel extends Model{
      */
     public function changeStatus($id, $status = -1)
     {
-//        echo($id);
-//        exit;
         if ($status == -1) {
             // $id可能是具体的值 也可能是数组（批量删除）
             return parent::save(array('status' => $status, 'id' => array('in', $id), 'name' => array('exp', "concat(`name`,'_del')")));

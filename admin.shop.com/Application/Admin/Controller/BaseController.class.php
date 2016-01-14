@@ -49,7 +49,7 @@ class BaseController extends Controller{
     {
         $result = $this->model->changeStatus($id, $status);
         if ($result !== false) {
-            $this->success('操作成功', cookie('request_uri'));
+            $this->success('操作成功', U('index'));
         } else {
             $this->error('操作失败' . show_model_error($this->model));
         }
@@ -63,7 +63,7 @@ class BaseController extends Controller{
         if (IS_POST) {
             if ($this->model->create() !== false) {
                 if ($this->model->add() !== false) {
-                    $this->success('添加成功', U('index'));
+                    $this->success('添加成功', cookie('request_uri'));
                     return;
                 }
             }
