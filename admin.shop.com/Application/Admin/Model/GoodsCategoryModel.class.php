@@ -65,10 +65,7 @@ class GoodsCategoryModel extends BaseModel{
         //>>1.根据自己的id找到自己以及子孙节点的id
         $sql = "select child.id from  goods_category as child,goods_category as parent where  parent.id = {$id}  and child.lft>=parent.lft  and child.rgt<=parent.rgt";
         $rows = $this->query($sql);
-        $id = array();
-        foreach($rows as $value){
-            $id[] = $value['id'];
-        }
+        $id = array_column($rows,'id');
 //        dump($id);
 //        exit;
         if ($status == -1) {
@@ -76,5 +73,17 @@ class GoodsCategoryModel extends BaseModel{
             return parent::save(array('status' => $status, 'id' => array('in', $id), 'name' => array('exp', "concat(`name`,'_del')")));
         }
         return parent::save(array('status' => $status, 'id' => array('in', $id)));
+    }
+
+    /**通过分类id找到叶子节点id
+     * @param $goods_cate_id
+     * @return array
+     */
+    public function getLeaf($goods_category_id){
+        $sql = "select child.id from goods_category as  parent,goods_category as child where  parent.id = {$goods_category_id} and child.lft>=parent.lft and child.rgt<=parent.rgt and child.lft+1 =child.rgt";
+        $rows = $this->query($sql);
+        //从二维数组中得到id的值
+        $ids = array_column($rows,'id');
+        return $ids;
     }
 }

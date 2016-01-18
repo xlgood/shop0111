@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="http://admin.shop.com/Public/Admin/css/general.css" rel="stylesheet" type="text/css" />
 <link href="http://admin.shop.com/Public/Admin/css/main.css" rel="stylesheet" type="text/css" />
+<link href="http://admin.shop.com/Public/Admin/css/common.css" rel="stylesheet" type="text/css" />
 <!--为子模板预留css位置-->
 </head>
 <body>

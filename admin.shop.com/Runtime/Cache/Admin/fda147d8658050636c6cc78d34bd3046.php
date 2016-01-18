@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="http://admin.shop.com/Public/Admin/css/general.css" rel="stylesheet" type="text/css" />
 <link href="http://admin.shop.com/Public/Admin/css/main.css" rel="stylesheet" type="text/css" />
+<link href="http://admin.shop.com/Public/Admin/css/common.css" rel="stylesheet" type="text/css" />
 <!--为子模板预留css位置-->
 </head>
 <body>
@@ -35,10 +36,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="label">品牌Logo</td>
+                    <td class="label">品牌LOGO</td>
                     <td>
-                        <input type="file" name="logo"  />
-                        <span class="require-field">*</span>
+                        <input type="file" id="logo_uploader" name="logo_uploader"  />
+                        <input type="hidden"  name="logo" class="logo" />
+                        <div class="upload-img-box" style="display: none">
+                            <div class="upload-pre-item">
+                                <img src="">
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -84,6 +90,33 @@
         $('.status').val([<?php echo ((isset($status) && ($status !== ""))?($status):1); ?>]);
     });
 </script>
-<!--为子模板预留js位置-->
+
+    <script type="text/javascript" src="http://admin.shop.com/Public/Admin/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#logo_uploader").uploadify({
+                fileTypeExts  : '*.gif; *.jpg; *.png',  //允许上传的文件后缀名
+                formData      : {'dir' : 'brand-logo'},  //附带上传的其他参数
+                fileSizeLimit : '2MB',      //最大上传图片大小
+                buttonText    : '上传图片',   //显示的文字
+                height        : 30,
+                swf           : 'http://admin.shop.com/Public/Admin/uploadify/uploadify.swf', //flash插件
+                uploader      : "<?php echo U('Upload/index');?>",  //处理上传的方法
+                width         : 120,
+                'onUploadSuccess' : function(file, data, response) {  //上传成功后执行  data就是响应的上传地址
+//                    alert(data);
+//                    return;
+                    $('.upload-img-box').show();
+//                    $('.upload-img-box .upload-pre-item img').attr('src','/Uploads/'+data);
+                    $('.upload-img-box .upload-pre-item img').attr('src','http://brand-logo.b0.upaiyun.com/'+data);
+                    $('.logo').val(data); //将上传后的路径放到隐藏域中提交给服务器
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) { //上传失败后执行
+                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

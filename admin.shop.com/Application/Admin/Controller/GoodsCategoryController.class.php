@@ -13,18 +13,7 @@ class GoodsCategoryController extends BaseController{
      */
     public function index()
     {
-//        cookie('request_uri', $_SERVER['REQUEST_URI']);
-//        $keyword = I('keyword');
-        /**
-         * 生成分页
-         * $pageResult = array（
-         *      'rows' => 二维数组 用来显示分页数据列表,
-         *      'pageHtml'=> 生成的分页工具条html
-         * ）
-         */
-//        $pageResult = $this->model->getPageResult($keyword);
-//        $this->assign($pageResult);
-        //得到树状列表
+        cookie('request_uri', $_SERVER['REQUEST_URI']);
         $rows = $this->model->getTreeList();
         $this->assign('rows',$rows);
         $this->assign('meta_title',$this->meta_title);
@@ -32,48 +21,12 @@ class GoodsCategoryController extends BaseController{
     }
 
     /**
-     * 添加分类
+     * 覆盖父类的钩子方法
      */
-    public function add()
-    {
-        if (IS_POST) {
-            if ($this->model->create() !== false) {
-                if ($this->model->add() !== false) {
-                    $this->success('添加成功', U('index'));
-                    return;
-                }
-            }
-            $this->error('添加失败' . show_model_error($this->model));
-        } else {
-            //得到树状列表
-            $rows = $this->model->getTreeList(true,'id,name,parent_id');
-            $this->assign('zNodes',$rows);
-            $this->assign('meta_title', '添加' . $this->meta_title);
-            $this->display('edit');
-        }
-    }
+    protected function _before_edit_view(){
+        //得到树状列表并分配到页面
+        $rows = $this->model->getTreeList(true,'id,name,parent_id');
+        $this->assign('zNodes',$rows);
 
-    /**编辑分类
-     * @param $id  该分类的id
-     */
-    public function edit($id)
-    {
-        if (IS_POST) {
-            if ($this->model->create() !== false) {
-                if ($this->model->save() !== false) {
-                    $this->success('更新成功', cookie('request_uri'));
-                    return;
-                }
-            }
-            $this->error('更新失败' . show_model_error($this->model));
-        } else {
-            $row = $this->model->find($id);
-            $this->assign($row);
-            //得到树状列表
-            $rows = $this->model->getTreeList(true,'id,name,parent_id');
-            $this->assign('zNodes',$rows);
-            $this->assign('meta_title', '编辑' . $this->meta_title);
-            $this->display('edit');
-        }
     }
 }

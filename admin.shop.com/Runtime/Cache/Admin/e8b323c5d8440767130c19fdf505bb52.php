@@ -25,9 +25,11 @@
     </form>
 </div>
 
+
 <input type="button" value=" 删除所选 " class="button ajax-post" url="<?php echo U('changeStatus');?>"/>
 <input type="button" value=" 显示所选 " class="button ajax-post" url="<?php echo U('changeStatus',array('status'=>1));?>"/>
 <input type="button" value=" 隐藏所选 " class="button ajax-post" url="<?php echo U('changeStatus',array('status'=>0));?>"/>
+
 
     <div class="list-div" id="listDiv">
         <table cellpadding="3" cellspacing="1">
@@ -47,7 +49,8 @@
                         <span><?php echo ($row["name"]); ?></span>
                     </td>
                     <td align="center"><?php echo ($row["url"]); ?></td>
-                    <td align="center"><?php echo ($row["logo"]); ?></td>
+                    <td align="center"><img src="http://brand-logo.b0.upaiyun.com/<?php echo ($row["logo"]); ?>" width="30px"/></td>
+                    <!--<td align="center"><img src="/Uploads/<?php echo ($row["logo"]); ?>" width="30px"/></td>-->
                     <td align="center"><?php echo ($row["intro"]); ?></td>
                     <td align="center"><span><?php echo ($row["sort"]); ?></span></td>
                     <td align="center"><a class="ajax-get" href="<?php echo U('changeStatus',array('id'=>$row['id'],'status'=>1-$row['status']));?>"><img src="http://admin.shop.com/Public/Admin/images/<?php echo ($row["status"]); ?>.gif" /></a></td>

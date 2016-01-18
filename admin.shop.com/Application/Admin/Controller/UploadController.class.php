@@ -14,14 +14,18 @@ use Think\Upload;
 
 class UploadController extends Controller{
     public function index(){
-        $dir = I('post.dir');
-        $config = C('UPLOAD_CONFIG'); // 上传驱动配置
-//        dump($_FILES['Filedata']);
+        $dir = I('post.dir');  //获取浏览器指定的服务(空间)
+        $config = C('UPLOAD_CONFIG');
+
+        //在配置中添加 空间
+        $config['driverConfig']['bucket'] = $dir;
+//        dump($config);
 //        exit;
         $uploader = new Upload($config);
         $result = $uploader->uploadOne($_FILES['Filedata']);
         if($result!==false){
-            echo $result['savepath'].$result['savename'];
+            //将上传后的路径发送给浏览器
+            echo $result['savepath'].$result['savename']; //保存到upyun上的地址
         }else{
             echo $uploader->getError();
         }

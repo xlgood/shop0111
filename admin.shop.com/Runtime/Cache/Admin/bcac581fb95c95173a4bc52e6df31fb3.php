@@ -25,9 +25,11 @@
     </form>
 </div>
 
+
 <input type="button" value=" 删除所选 " class="button ajax-post" url="<?php echo U('changeStatus');?>"/>
 <input type="button" value=" 显示所选 " class="button ajax-post" url="<?php echo U('changeStatus',array('status'=>1));?>"/>
 <input type="button" value=" 隐藏所选 " class="button ajax-post" url="<?php echo U('changeStatus',array('status'=>0));?>"/>
+
 
     <div class="list-div" id="listDiv">
         <table cellpadding="3" cellspacing="1">
